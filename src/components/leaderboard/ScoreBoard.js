@@ -1,17 +1,16 @@
 import React from 'react';
-import { stripColor, redBright } from 'ansi-colors';
 
-const boxColor = (n, length) => {
-
-    return {
-         
-    }
+const boxColor = () => {
+    let r = Math.floor(Math.random()*205) + 50;
+    let g = Math.floor(Math.random()*205) + 50;
+    let b = Math.floor(Math.random()*205) + 50;
+    return [r,g,b]
 }
 
 
 
 const ScoreBoard = ({ scores }) => {
-    
+
     function compare(a,b) {
         if (a.score < b.score) {
             return 1
@@ -20,19 +19,31 @@ const ScoreBoard = ({ scores }) => {
         }
         return 0
     }
-    
+
     // sort scores and have them rank from top to bottom
     scores = scores.sort(compare)
-    console.log(scores[scores.length-1].score);
-    console.log(scores[0].score / scores[scores.length-1].score);
+
     // Display them
-    const display = scores.map((e,i) => (
-        <div className='score' key={i} style={boxColor(i, scores.length)}>
+    const display = scores.map((e,i) => {
+        let [ r, g, b ] = boxColor();
+        return (
+
+        <div className='score' key={i}>
             <h3 className='rank'>{i+1}.</h3>
             <h3>{e.name}</h3>
-            <div className='points outer'><div className='inner' style={{width: `${(e.score/scores[0].score) * 100}%`}}>{ e.score }</div></div>
+            <h3>{ e.score }</h3>
+            <div className='points outer'>
+                <div className='inner'
+                    style={{
+                        width: `${(e.score/scores[0].score) * 100}%`,
+                        backgroundColor: `rgb(${r}, ${g}, ${b})`,
+                        boxShadow: '1px 1px 10px gray'
+                    }}>
+                </div>
+            </div>
         </div>
-    ))
+    )}
+    )
     return (
         <>
             { display }

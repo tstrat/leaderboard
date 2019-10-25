@@ -24,10 +24,11 @@
             margin-right: 20px;
         }
         .outer {
+            height: 20px;
             .inner {
+                height: 100%;
                 color:white;
                 font-weight: 600;
-                background-color: black;
             }
         }
     }

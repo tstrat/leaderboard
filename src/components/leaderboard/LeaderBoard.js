@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
-import ScoreBoard from './ScoreBoard';
-import './leaderboard.scss';
+import React, { useState, useEffect } from 'react'
+import ScoreBoard from './ScoreBoard'
+import './leaderboard.scss'
 
-const socket = io('http://localhost:4000');
 
-const LeaderBoard = (props) => {
-    const [leaderBoard, setLeaderBoard] = useState(null);
-    
+const LeaderBoard = ({socket}) => {
+
+    const [leaderBoard, setLeaderBoard] = useState(null)
+    //      ^  Obj      ^ "setState"
+    socket.on('update', newBoard => setLeaderBoard(newBoard))
     useEffect(() => {
-        socket.on('update', newBoard => setLeaderBoard(newBoard));
         if(!leaderBoard) {
             socket.emit('requestScores')
         }
     })
-    
-    const leaders = leaderBoard ? <ScoreBoard scores={leaderBoard}/>: null
 
+
+    const leaders = leaderBoard ? <ScoreBoard scores={leaderBoard}/>: null
     return (
         <div className='leaderboard'>
             {leaders}
